@@ -14,6 +14,12 @@ public class Main {
         int lossAmtAfter20Days = 0;
         int[] totalLossAmount = new int[20];
         int[] totalWinAmount = new int[20];
+        int[] profitLoss = new int[20];
+        int min = 0;
+        int max = 0;
+        int max_index = 0;
+        int min_index = 0;
+        //   int[] loss = new int[20];
 
         for (int i = 0; i < 20; i++) {                                            // calculating for 20 days.
             System.out.println("\nDay: " + (i + 1));
@@ -31,11 +37,13 @@ public class Main {
                     //    System.out.println("Loss");
                     loseAmount++;
                 }
+// Resigning for day.....
 
                 if (winAmount == stake / 2) {
                     System.out.println("Win Stake reached 50%. So, Gambler wil resign for the day.");
                     winCount++;
                     break;
+
                 } else if (loseAmount == stake / 2) {
                     System.out.println("Lose Stake reached 50%. So, Gambler will resign for the day");
                     loseCount++;
@@ -54,28 +62,55 @@ public class Main {
             System.out.println("Day: " + (j + 1) + " loss amount: " + totalLossAmount[j]);
             wonAmtAfter20Days = wonAmtAfter20Days + totalWinAmount[j];
             lossAmtAfter20Days = lossAmtAfter20Days + totalLossAmount[j];
+
+            profitLoss[j] = totalWinAmount[j] - totalLossAmount[j];
+            //    loss[j] = totalLossAmount[j] - totalWinAmount[j];
+
+            if (profitLoss[j] > 0) {
+                System.out.println("Day: " + (j + 1) + "--> profit of Rs " + (profitLoss[j]));
+
+            } else {
+                System.out.println("Day: " + (j + 1) + "--> loss of Rs " + (profitLoss[j]) * -1);
+            }
         }
 
-        System.out.println("Total won amount after 20 days is Rs " + wonAmtAfter20Days);
+        // for luckiest and unluckiest day...........
+
+        for (int i = 0; i < profitLoss.length; i++) {
+            if (profitLoss[i] > max) {
+                max = profitLoss[i];
+                max_index = i;
+            }
+        }
+
+        for (int i = 0; i < profitLoss.length; i++) {
+            if (profitLoss[i] < min) {
+                min = profitLoss[i];
+                min_index = i;
+            }
+        }
+
+        System.out.println("\nTotal won amount after 20 days is Rs " + wonAmtAfter20Days);
         System.out.println("Total loss amount after 20 days is Rs " + lossAmtAfter20Days);
 
         if ((wonAmtAfter20Days - lossAmtAfter20Days) > 0) {
-            System.out.println("\nGambler won Rs " + (wonAmtAfter20Days - lossAmtAfter20Days) + " after 20 days\n");
+            System.out.println("Gambler won Rs " + (wonAmtAfter20Days - lossAmtAfter20Days) + " after 20 days\n");
         } else if ((wonAmtAfter20Days - lossAmtAfter20Days) < 0) {
-            System.out.println("\nGambler lost Rs " + (lossAmtAfter20Days - wonAmtAfter20Days) + " after 20 days\n");
+            System.out.println("Gambler lost Rs " + (lossAmtAfter20Days - wonAmtAfter20Days) + " after 20 days\n");
         } else {
-            System.out.println("\nNo loss, No profit\n");
+            System.out.println("No loss, No profit\n");
         }
+        System.out.println("Total won days in a month: " + winCount);
+        System.out.println("Total lost day in a month: " + loseCount);
+        System.out.println("\nLuckiest Day is: " + (max_index + 1));
+        System.out.println("Unluckiest Day is: " + (min_index + 1));
 
-        System.out.println("Total days won in a month: " + winCount);
-        System.out.println("Total days lost in a month: " + loseCount);
-        
     }
+
 
     public static void main(String[] args) {
         // welcome to gambling problem.
         winLose();
-
 
     }
 }
